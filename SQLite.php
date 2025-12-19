@@ -1,5 +1,5 @@
 <?php
-namespace PHPizza;
+namespace PHPizza\Database;
 
 class SQLite {
     private $dbServer;

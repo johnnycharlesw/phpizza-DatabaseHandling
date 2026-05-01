@@ -1,5 +1,6 @@
 <?php
 namespace PHPizza\Database;
+use Exception;
 
 
 class MariaDB implements SQLDatabaseManagementSystemDriver {

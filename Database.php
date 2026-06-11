@@ -28,11 +28,34 @@ final class Database {
         $this->dbName = $dbName;
         $key = strtolower(trim($dbType));
         if (!isset($this->dbMap[$key])) {
-            throw new \InvalidArgumentException("Unsupported database type: {$dbType}");
+            if (!$this->create_sqlite_fallback($dbServer, $dbUser, $dbPassword, $dbName, $dbType)) {
+                throw new \InvalidArgumentException("Unsupported database type: {$dbType}");
+            } else {
+                global $dbServer, $dbUser, $dbPassword, $dbName, $dbType;
+                $this->dbServer = $dbServer;
+                $this->dbUser = $dbUser;
+                $this->dbPassword = $dbPassword;
+                $this->dbName = $dbName;
+                $key = $dbType;
+            }
+            
         }
         $this->dbType = $key;
         $driverClass = $this->dbMap[$key];
         $this->dbDriver = new $driverClass($this->dbServer, $this->dbUser, $this->dbPassword, $this->dbName);
+    }
+
+    public function create_sqlite_fallback($dbServer, $dbUser, $dbPassword, $dbName, $dbType): bool {
+        if (empty($dbServer) && empty($dbUser) && empty($dbPassword) && empty($dbName) && empty($dbType)) {
+            global $dbServer, $dbUser, $dbPassword, $dbName, $dbType;
+            $dbServer = "localhost";
+            $dbUser="www-data";
+            $dbPassword="phpizza";
+            $dbName="private/sqlite3/db.sqlite3";
+            $dbType="sqlite";
+            return true;
+        }
+        return false;
     }
 
     public function fetchAll($query, $params = [], $types = ''){
@@ -53,5 +76,9 @@ final class Database {
 
     public function getLastInsertId(){
         return $this->dbDriver->getLastInsertId();
+    }
+
+    public function create_table(string $table){
+        return $this->dbDriver->create_table($table);
     }
 }

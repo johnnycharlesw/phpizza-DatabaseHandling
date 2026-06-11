@@ -43,4 +43,9 @@ class SQLite {
         return $result->num_rows > 0;
     }
 
+    public function create_table(string $table)
+    {
+        return $this->execute("CREATE TABLE ? ();", [$table]);
+    }
+
 }

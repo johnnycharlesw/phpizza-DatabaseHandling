@@ -1,7 +1,7 @@
 <?php
 namespace PHPizza\Database;
 use Exception;
-
+use Override;
 
 class MariaDB implements SQLDatabaseManagementSystemDriver {
     private $dbServer;
@@ -35,6 +35,11 @@ class MariaDB implements SQLDatabaseManagementSystemDriver {
 
     public function getLastInsertId() {
         return $this->connection->insert_id;
+    }
+
+    public function create_table(string $table)
+    {
+        return $this->execute("CREATE TABLE IF NOT EXISTS ? ();", [$table]);
     }
 
     public function __destruct() {

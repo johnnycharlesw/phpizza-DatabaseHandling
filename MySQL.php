@@ -36,6 +36,11 @@ class MySQL {
         return $mysql_connection->insert_id;
     }
 
+    public function create_table(string $table)
+    {
+        return $this->execute("CREATE TABLE IF NOT EXISTS ? ();", [$table]);
+    }
+
     public function get_table_exists(string $tableName){
         $query = "SELECT 1 FROM information_schema.tables WHERE table_schema = ? AND table_name = ?";
         $stmt = $this->fetchAll($query, [$this->dbName, $tableName]);

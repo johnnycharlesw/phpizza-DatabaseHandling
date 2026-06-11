@@ -7,5 +7,6 @@ interface SQLDatabaseManagementSystemDriver {
     public function fetchAll($query, $params = [], $types = '');
     public function fetchRow($query, $params = [], $types = '');
     public function getLastInsertId();
+    public function create_table(string $table);
     public function __destruct();
 }

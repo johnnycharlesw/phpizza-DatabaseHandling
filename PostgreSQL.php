@@ -71,6 +71,11 @@ class PostgreSQL {
         return $result && pg_num_rows($result) > 0 && pg_fetch_row($result)[0] === true;
     }
 
+    public function create_table(string $table)
+    {
+        return $this->execute("CREATE TABLE IF NOT EXISTS ? (id SERIAL PRIMARY KEY) ON COMMIT PRESERVE ROWS;", [$table]);
+    }
+
     public function __destruct() {
         if ($this->dbInterface) {
             @pg_close($this->dbInterface);

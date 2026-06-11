@@ -49,6 +49,11 @@ class MyRocks implements SQLDatabaseManagementSystemDriver
         return $this->connection->insert_id;
     }
 
+    public function create_table(string $table)
+    {
+        return $this->execute("CREATE TABLE IF NOT EXISTS ? ();", [$table]);
+    }
+
     public function __destruct() {
         close_database();
     }

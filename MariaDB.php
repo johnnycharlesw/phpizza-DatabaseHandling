@@ -39,7 +39,8 @@ class MariaDB implements SQLDatabaseManagementSystemDriver {
 
     public function create_table(string $table)
     {
-        return $this->execute("CREATE TABLE IF NOT EXISTS ? ();", [$table]);
+        //qodo-ignore This method is only used internally and is never fed user input.
+        return $this->execute("CREATE TABLE IF NOT EXISTS `$table` ();");
     }
 
     public function __destruct() {

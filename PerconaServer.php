@@ -51,7 +51,7 @@ class PerconaServer implements SQLDatabaseManagementSystemDriver {
 
     public function create_table(string $table)
     {
-        return $this->execute("CREATE TABLE IF NOT EXISTS ? ();", [$table]);
+        return $this->execute("CREATE TABLE IF NOT EXISTS ? (`id` INT UNSIGNED NOT NULL AUTO_INCREMENT);", [$table]);
     }
 
     public function __destruct() {

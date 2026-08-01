@@ -45,7 +45,7 @@ class SQLite {
 
     public function create_table(string $table)
     {
-        return $this->execute("CREATE TABLE ? ();", [$table]);
+        return $this->execute("CREATE TABLE ? (`id` INT UNSIGNED NOT NULL AUTO_INCREMENT);", [$table]);
     }
 
 }

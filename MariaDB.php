@@ -11,6 +11,7 @@ class MariaDB implements SQLDatabaseManagementSystemDriver {
     private $connection;
 
     public function __construct($dbServer, $dbUser, $dbPassword, $dbName) {
+        // Initialize the database
         $this->dbServer = $dbServer;
         $this->dbUser = $dbUser;
         $this->dbPassword = $dbPassword;
@@ -19,11 +20,13 @@ class MariaDB implements SQLDatabaseManagementSystemDriver {
     }
 
     public function fetchAll($query, $params = [], $types = '') {
+        // Fetch all results in a table
         $stmt = $this->run_query($query, $params, $types);
         return $this->fetch_all($stmt);
     }
 
     public function fetchRow($query, $params = [], $types = '') {
+        // Fetch one result in a table
         $stmt = $this->run_query($query, $params, $types);
         return $this->fetch_one($stmt);
     }
@@ -40,6 +43,7 @@ class MariaDB implements SQLDatabaseManagementSystemDriver {
     public function create_table(string $table)
     {
         //qodo-ignore This method is only used internally and is never fed user input.
+        // Create the table
         return $this->execute("CREATE TABLE IF NOT EXISTS `$table` (`id` INT UNSIGNED NOT NULL AUTO_INCREMENT);");
     }
 
@@ -90,7 +94,7 @@ class MariaDB implements SQLDatabaseManagementSystemDriver {
     }
 
     private function run_query($query, $params = [], $types = ''){
-        
+        // Prepare the statement
         $stmt = $this->connection->prepare($query);
         if ($stmt === false) {
             error_log("Prepare failed: " . $this->connection->error . " -- Query: " . $query);
@@ -100,6 +104,8 @@ class MariaDB implements SQLDatabaseManagementSystemDriver {
             HTML;
             throw new Exception($msg, 1);
         }
+
+        // Bind the parameters
         if (!empty($params)) {
             if (empty($types)) {
                 // Automatically determine types if not provided
@@ -118,6 +124,8 @@ class MariaDB implements SQLDatabaseManagementSystemDriver {
             }
             $stmt->bind_param($types, ...$params);
         }
+
+        // Execute the prepared SQL
         if (!$stmt->execute()) {
             error_log("Execute failed: " . $stmt->error . " -- Query: " . $query);
             $msg = <<<HTML
@@ -130,6 +138,7 @@ class MariaDB implements SQLDatabaseManagementSystemDriver {
     }
 
     private function fetch_all($stmt){
+        // Fetch all results for a query
         $result = $stmt->get_result();
         if ($result === false) {
             die("Get result failed: " . $stmt->error);
@@ -138,6 +147,7 @@ class MariaDB implements SQLDatabaseManagementSystemDriver {
     }
 
     private function fetch_one($stmt){
+        // Fetch one result for a query
         $result = $stmt->get_result();
         if ($result === false) {
             die("Get result failed: " . $stmt->error);
@@ -146,6 +156,7 @@ class MariaDB implements SQLDatabaseManagementSystemDriver {
     }
 
     private function close_database(){
+        // Close the database connection
         if ($this->connection) {
             $this->connection->close();
         }

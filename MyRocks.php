@@ -6,6 +6,9 @@ namespace PHPizza\Database;
 // This subclass exists to handle quirks or future customizations
 // specific to Meta's MySQL fork: https://github.com/facebook/mysql-8.0
 
+/**
+ * This is MyRocks. It is basically MariaDB Facebook Edition. Nothing else to say about it.
+ */
 class MyRocks implements SQLDatabaseManagementSystemDriver
 {
     private $dbServer;

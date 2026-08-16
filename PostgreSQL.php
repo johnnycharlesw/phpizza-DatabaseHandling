@@ -1,6 +1,9 @@
 <?php
 namespace PHPizza\Database;
 
+/**
+ * PostgeSQL is a database typically used for projects requiring complex data structures. PHPizza doesn't, but your app on top of it might.
+ */
 class PostgreSQL {
     private $dbServer;
     private $dbUser;

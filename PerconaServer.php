@@ -3,6 +3,9 @@ namespace PHPizza\Database;
 
 # Add in a class for Percona Server
 
+/**
+ * Percona Server is like MariaDB, but is much more simplified
+ */
 class PerconaServer implements SQLDatabaseManagementSystemDriver {
 
     private $connection;
